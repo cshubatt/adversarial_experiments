@@ -1,0 +1,682 @@
+running
+  '/Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/bin/R --no-echo --no-restore --vanilla --file=sim_multiattribute.R --args # nolint'
+
+- The project is out-of-sync -- use `renv::status()` for details.
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+here() starts at /Users/cassidyshubatt/Projects/problem_taxonomy
+
+Attaching package: ‘data.table’
+
+The following object is masked from ‘package:purrr’:
+
+    transpose
+
+The following objects are masked from ‘package:dplyr’:
+
+    between, first, last
+
+Masking (modules:dplyr):
+  `intersect` from: base
+  `setdiff` from: base
+  `setequal` from: base
+  `union` from: base
+Masking (modules:stats):
+  `filter` from: modules:dplyr
+  `lag` from: modules:dplyr
+Masking (modules:matrixStats):
+  `count` from: modules:dplyr
+Generating problems...
+Calculating true value...
+Simulating Tversky and Simonson...
+Frac 2-menu correct: 0.863303498779496
+Frac 3-menu correct: 0.953213995117982
+Frac reversal: 0.137103336045565
+Frac 2-menu correct: 0.999593165174939
+Frac 3-menu correct: 0.954434499593165
+Frac reversal: 0.0451586655817738
+Frac 2-menu correct: 0.768917819365338
+Frac 3-menu correct: 0.959316517493897
+Frac reversal: 0.233523189585028
+Simulating BGS Salience...
+Delta: 0.3
+Frac 2-menu correct: 0.825061025223759
+Frac 3-menu correct: 0.78966639544345
+Frac 2-menu and 3-menu incorrect: 0.168429617575264
+Frac reversal: 0.048413344182262
+Delta: 0.5
+Frac 2-menu correct: 0.838893409275834
+Frac 3-menu correct: 0.860048820179007
+Frac 2-menu and 3-menu incorrect: 0.107811228641172
+Frac reversal: 0.0854353132628153
+Delta: 0.8
+Frac 2-menu correct: 0.829943043124491
+Frac 3-menu correct: 0.954841334418226
+Frac 2-menu and 3-menu incorrect: 0.0309194467046379
+Frac reversal: 0.153376729048007
+Delta: 0.95
+Frac 2-menu correct: 0.8173311635476
+Frac 3-menu correct: 0.986574450772986
+Frac 2-menu and 3-menu incorrect: 0.0109845402766477
+Frac reversal: 0.174125305126119
+Simulating values from comparison complexity model...
+Gamma: 0.5
+Frac 2-menu correct: 0.993490642799024
+Frac 3-menu correct: 0.786411716842962
+Frac 2-menu and 3-menu incorrect: 0.0032546786004882
+Frac 3-menu phantom correct: 0.869406021155411
+Frac reversal: 0.213588283157038
+Frac reversal phantom: 0.130593978844589
+Gamma: 1
+Frac 2-menu correct: 0.998779495524817
+Frac 3-menu correct: 0.820585842148088
+Frac 2-menu and 3-menu incorrect: 0.000406834825061025
+Frac 3-menu phantom correct: 0.896257119609439
+Frac reversal: 0.179820992676973
+Frac reversal phantom: 0.104149715215622
+Gamma: 2.5
+Frac 2-menu correct: 0.999593165174939
+Frac 3-menu correct: 0.851098454027665
+Frac 2-menu and 3-menu incorrect: 0
+Frac 3-menu phantom correct: 0.953620829943043
+Frac reversal: 0.149308380797396
+Frac reversal phantom: 0.0459723352318959
+Saving data...
+Comparing models...
+                             consistent_3__TS_200 consistent_3__TS_100
+consistent_3__TS_200                    1.0000000            0.9862391
+consistent_3__TS_100                    0.9862391            1.0000000
+consistent_3__TS_20                     0.9295341            0.9425038
+consistent_3__BGS_0.3                   0.1503747            0.1552984
+consistent_3__BGS_0.5                   0.1993781            0.2042624
+consistent_3__BGS_0.8                   0.2394210            0.2437239
+consistent_3__BGS_0.95                  0.1917650            0.1948747
+consistent_3_phantom__CC_0.5            0.5716267            0.5637606
+consistent_3_phantom__CC_1              0.6511783            0.6422175
+consistent_3_phantom__CC_2.5            0.7480988            0.7495813
+                             consistent_3__TS_20 consistent_3__BGS_0.3
+consistent_3__TS_200                   0.9295341             0.1503747
+consistent_3__TS_100                   0.9425038             0.1552984
+consistent_3__TS_20                    1.0000000             0.1615284
+consistent_3__BGS_0.3                  0.1615284             1.0000000
+consistent_3__BGS_0.5                  0.2077815             0.7816174
+consistent_3__BGS_0.8                  0.2626502             0.4213786
+consistent_3__BGS_0.95                 0.2085934             0.2260313
+consistent_3_phantom__CC_0.5           0.5313465             0.1021581
+consistent_3_phantom__CC_1             0.6052925             0.1059549
+consistent_3_phantom__CC_2.5           0.7379580             0.1282654
+                             consistent_3__BGS_0.5 consistent_3__BGS_0.8
+consistent_3__TS_200                     0.1993781             0.2394210
+consistent_3__TS_100                     0.2042624             0.2437239
+consistent_3__TS_20                      0.2077815             0.2626502
+consistent_3__BGS_0.3                    0.7816174             0.4213786
+consistent_3__BGS_0.5                    1.0000000             0.5391110
+consistent_3__BGS_0.8                    0.5391110             1.0000000
+consistent_3__BGS_0.95                   0.2891841             0.5364091
+consistent_3_phantom__CC_0.5             0.1255480             0.1424778
+consistent_3_phantom__CC_1               0.1473373             0.1637432
+consistent_3_phantom__CC_2.5             0.1731085             0.2222060
+                             consistent_3__BGS_0.95
+consistent_3__TS_200                      0.1917650
+consistent_3__TS_100                      0.1948747
+consistent_3__TS_20                       0.2085934
+consistent_3__BGS_0.3                     0.2260313
+consistent_3__BGS_0.5                     0.2891841
+consistent_3__BGS_0.8                     0.5364091
+consistent_3__BGS_0.95                    1.0000000
+consistent_3_phantom__CC_0.5              0.1121523
+consistent_3_phantom__CC_1                0.1110191
+consistent_3_phantom__CC_2.5              0.1759800
+                             consistent_3_phantom__CC_0.5
+consistent_3__TS_200                            0.5716267
+consistent_3__TS_100                            0.5637606
+consistent_3__TS_20                             0.5313465
+consistent_3__BGS_0.3                           0.1021581
+consistent_3__BGS_0.5                           0.1255480
+consistent_3__BGS_0.8                           0.1424778
+consistent_3__BGS_0.95                          0.1121523
+consistent_3_phantom__CC_0.5                    1.0000000
+consistent_3_phantom__CC_1                      0.8778344
+consistent_3_phantom__CC_2.5                    0.5690145
+                             consistent_3_phantom__CC_1
+consistent_3__TS_200                          0.6511783
+consistent_3__TS_100                          0.6422175
+consistent_3__TS_20                           0.6052925
+consistent_3__BGS_0.3                         0.1059549
+consistent_3__BGS_0.5                         0.1473373
+consistent_3__BGS_0.8                         0.1637432
+consistent_3__BGS_0.95                        0.1110191
+consistent_3_phantom__CC_0.5                  0.8778344
+consistent_3_phantom__CC_1                    1.0000000
+consistent_3_phantom__CC_2.5                  0.6482026
+                             consistent_3_phantom__CC_2.5
+consistent_3__TS_200                            0.7480988
+consistent_3__TS_100                            0.7495813
+consistent_3__TS_20                             0.7379580
+consistent_3__BGS_0.3                           0.1282654
+consistent_3__BGS_0.5                           0.1731085
+consistent_3__BGS_0.8                           0.2222060
+consistent_3__BGS_0.95                          0.1759800
+consistent_3_phantom__CC_0.5                    0.5690145
+consistent_3_phantom__CC_1                      0.6482026
+consistent_3_phantom__CC_2.5                    1.0000000
+                     any_inconsistent_TS any_inconsistent_BGS
+any_inconsistent_TS            1.0000000            0.1631796
+any_inconsistent_BGS           0.1631796            1.0000000
+any_inconsistent_CC            0.7070246            0.1250045
+                     any_inconsistent_CC
+any_inconsistent_TS            0.7070246
+any_inconsistent_BGS           0.1250045
+any_inconsistent_CC            1.0000000
+menu: 2
+correct option: x
+value difference: 1.86
+[1] "x:"    "8.18"  "17.66"
+[1] "y:"    "17.41" "6.57" 
+[1] "z:"   "8.68" "3.21"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "TRUE"           
+menu: 5
+correct option: x
+value difference: 3.32
+[1] "x:"    "11.03" "9.13" 
+[1] "y:"   "16.4" "0.44"
+[1] "z:"    "11.78" "8.85" 
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "TRUE"            "TRUE"           
+menu: 6
+correct option: y
+value difference: -0.0299999999999976
+[1] "x:"    "19.14" "9.07" 
+[1] "y:"    "12.62" "15.62"
+[1] "z:"    "17.42" "2.32" 
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 8
+correct option: x
+value difference: 0.169999999999998
+[1] "x:"   "2.06" "18"  
+[1] "y:"    "11.61" "8.28" 
+[1] "z:"    "8.16"  "15.91"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "FALSE"           
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 10
+correct option: x
+value difference: 0.93
+[1] "x:"    "6.56"  "19.09"
+[1] "y:"    "7.31"  "17.41"
+[1] "z:"   "7.65" "8.02"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "TRUE"            "TRUE"           
+menu: 15
+correct option: x
+value difference: 0.450000000000001
+[1] "x:"   "5.78" "2.94"
+[1] "y:"   "2.55" "5.72"
+[1] "z:"    "1.03"  "16.44"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "TRUE"            
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 29
+correct option: x
+value difference: 0.199999999999999
+[1] "x:"    "2.55"  "15.07"
+[1] "y:"    "16.09" "1.33" 
+[1] "z:"   "1.56" "0.6" 
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "TRUE"            "TRUE"           
+menu: 47
+correct option: x
+value difference: 0.650000000000002
+[1] "x:"    "6.87"  "13.14"
+[1] "y:"    "11.32" "8.04" 
+[1] "z:"   "2.09" "8.82"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 63
+correct option: y
+value difference: -1.56
+[1] "x:"    "7.39"  "19.68"
+[1] "y:"    "16.71" "11.92"
+[1] "z:"    "18.6"  "17.92"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "TRUE"           
+menu: 67
+correct option: x
+value difference: 2.86
+[1] "x:"    "13.46" "14.74"
+[1] "y:"    "18.62" "6.72" 
+[1] "z:"    "17.58" "1.83" 
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "TRUE"           
+menu: 68
+correct option: y
+value difference: -0.440000000000005
+[1] "x:"    "10.42" "13.2" 
+[1] "y:"    "6.49"  "17.57"
+[1] "z:"    "7.39"  "13.19"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 71
+correct option: x
+value difference: 0.00999999999999979
+[1] "x:"   "6.23" "8.19"
+[1] "y:"    "12.27" "2.14" 
+[1] "z:"   "5.21" "9.95"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 79
+correct option: y
+value difference: -0.4
+[1] "x:"    "11.44" "4.34" 
+[1] "y:"    "12.65" "3.53" 
+[1] "z:"    "3.88"  "10.98"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 83
+correct option: x
+value difference: 1.27
+[1] "x:"    "7.11"  "10.67"
+[1] "y:"   "8.23" "8.28"
+[1] "z:"    "11.18" "11.15"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 84
+correct option: x
+value difference: 2.55
+[1] "x:"    "14.81" "4.42" 
+[1] "y:"   "8.69" "7.99"
+[1] "z:"   "7.09" "4.62"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "TRUE"            "TRUE"           
+menu: 86
+correct option: x
+value difference: 3.01
+[1] "x:"   "12.6" "3.68"
+[1] "y:"   "6.49" "6.78"
+[1] "z:"    "14.71" "13.17"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 88
+correct option: y
+value difference: -2.13
+[1] "x:"    "13.37" "12.36"
+[1] "y:"    "9.27"  "18.59"
+[1] "z:"    "18.09" "14.44"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 92
+correct option: x
+value difference: 4.36
+[1] "x:"    "14.17" "5.3"  
+[1] "y:"   "9.51" "5.6" 
+[1] "z:"    "10.21" "7.1"  
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 94
+correct option: x
+value difference: 0.359999999999999
+[1] "x:"    "5.3"   "11.29"
+[1] "y:"   "8.6"  "7.63"
+[1] "z:"    "5.75"  "14.84"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 101
+correct option: x
+value difference: 4.5
+[1] "x:"    "4.77"  "19.25"
+[1] "y:"   "12"   "7.52"
+[1] "z:"   "9.05" "9.56"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+CC, BGS conflict: 
+menu: 6
+correct option: y
+value difference: -0.0299999999999976
+[1] "x:"    "19.14" "9.07" 
+[1] "y:"    "12.62" "15.62"
+[1] "z:"    "17.42" "2.32" 
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 68
+correct option: y
+value difference: -0.440000000000005
+[1] "x:"    "10.42" "13.2" 
+[1] "y:"    "6.49"  "17.57"
+[1] "z:"    "7.39"  "13.19"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 71
+correct option: x
+value difference: 0.00999999999999979
+[1] "x:"   "6.23" "8.19"
+[1] "y:"    "12.27" "2.14" 
+[1] "z:"   "5.21" "9.95"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 94
+correct option: x
+value difference: 0.359999999999999
+[1] "x:"    "5.3"   "11.29"
+[1] "y:"   "8.6"  "7.63"
+[1] "z:"    "5.75"  "14.84"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 111
+correct option: x
+value difference: 0.0899999999999963
+[1] "x:"    "5.65"  "19.22"
+[1] "y:"    "12.13" "12.65"
+[1] "z:"   "5.01" "4.63"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "FALSE"           
+[1] "CC consistent: " "FALSE"           "TRUE"            "TRUE"           
+menu: 158
+correct option: x
+value difference: 0.969999999999995
+[1] "x:"    "7.1"   "16.06"
+[1] "y:"    "19.46" "2.73" 
+[1] "z:"    "19.83" "0.38" 
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 232
+correct option: y
+value difference: 0
+[1] "x:"   "9.28" "3.31"
+[1] "y:"    "1.91"  "10.68"
+[1] "z:"    "16.42" "7.28" 
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "FALSE"           
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 233
+correct option: y
+value difference: -0.250000000000004
+[1] "x:"   "11.7" "5.42"
+[1] "y:"    "13.59" "3.78" 
+[1] "z:"    "15.04" "5.99" 
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "FALSE"           
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 255
+correct option: y
+value difference: -1.27
+[1] "x:"   "18.9" "6.83"
+[1] "y:"    "7.92"  "19.08"
+[1] "z:"    "12.77" "4.24" 
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 277
+correct option: y
+value difference: -1.89
+[1] "x:"    "11.39" "17.76"
+[1] "y:"    "19.18" "11.86"
+[1] "z:"   "6.6"  "18.6"
+[1] "TS consistent: " "FALSE"           "FALSE"           "TRUE"           
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+BGS, TS conflict: 
+menu: 6
+correct option: y
+value difference: -0.0299999999999976
+[1] "x:"    "19.14" "9.07" 
+[1] "y:"    "12.62" "15.62"
+[1] "z:"    "17.42" "2.32" 
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 67
+correct option: x
+value difference: 2.86
+[1] "x:"    "13.46" "14.74"
+[1] "y:"    "18.62" "6.72" 
+[1] "z:"    "17.58" "1.83" 
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "TRUE"           
+menu: 68
+correct option: y
+value difference: -0.440000000000005
+[1] "x:"    "10.42" "13.2" 
+[1] "y:"    "6.49"  "17.57"
+[1] "z:"    "7.39"  "13.19"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 71
+correct option: x
+value difference: 0.00999999999999979
+[1] "x:"   "6.23" "8.19"
+[1] "y:"    "12.27" "2.14" 
+[1] "z:"   "5.21" "9.95"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 94
+correct option: x
+value difference: 0.359999999999999
+[1] "x:"    "5.3"   "11.29"
+[1] "y:"   "8.6"  "7.63"
+[1] "z:"    "5.75"  "14.84"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 111
+correct option: x
+value difference: 0.0899999999999963
+[1] "x:"    "5.65"  "19.22"
+[1] "y:"    "12.13" "12.65"
+[1] "z:"   "5.01" "4.63"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "FALSE"           
+[1] "CC consistent: " "FALSE"           "TRUE"            "TRUE"           
+menu: 135
+correct option: y
+value difference: -3.58
+[1] "x:"    "0.4"   "10.06"
+[1] "y:"    "11.03" "3.01" 
+[1] "z:"   "0.38" "7.24"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "TRUE"           
+menu: 158
+correct option: x
+value difference: 0.969999999999995
+[1] "x:"    "7.1"   "16.06"
+[1] "y:"    "19.46" "2.73" 
+[1] "z:"    "19.83" "0.38" 
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 232
+correct option: y
+value difference: 0
+[1] "x:"   "9.28" "3.31"
+[1] "y:"    "1.91"  "10.68"
+[1] "z:"    "16.42" "7.28" 
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "FALSE"           
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+menu: 233
+correct option: y
+value difference: -0.250000000000004
+[1] "x:"   "11.7" "5.42"
+[1] "y:"    "13.59" "3.78" 
+[1] "z:"    "15.04" "5.99" 
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "FALSE"           
+[1] "CC consistent: " "TRUE"            "TRUE"            "TRUE"           
+CC, TS conflict: 
+menu: 67
+correct option: x
+value difference: 2.86
+[1] "x:"    "13.46" "14.74"
+[1] "y:"    "18.62" "6.72" 
+[1] "z:"    "17.58" "1.83" 
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "TRUE"           
+menu: 135
+correct option: y
+value difference: -3.58
+[1] "x:"    "0.4"   "10.06"
+[1] "y:"    "11.03" "3.01" 
+[1] "z:"   "0.38" "7.24"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "TRUE"           
+menu: 277
+correct option: y
+value difference: -1.89
+[1] "x:"    "11.39" "17.76"
+[1] "y:"    "19.18" "11.86"
+[1] "z:"   "6.6"  "18.6"
+[1] "TS consistent: " "FALSE"           "FALSE"           "TRUE"           
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 363
+correct option: x
+value difference: 0.509999999999998
+[1] "x:"    "12.16" "15.12"
+[1] "y:"    "16.39" "10.38"
+[1] "z:"    "19.82" "4.46" 
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 403
+correct option: x
+value difference: 3.39
+[1] "x:"    "5.26"  "19.37"
+[1] "y:"    "19.03" "2.21" 
+[1] "z:"    "13.42" "4.54" 
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 469
+correct option: x
+value difference: 0.129999999999999
+[1] "x:"    "10.52" "17.46"
+[1] "y:"    "8.16"  "19.69"
+[1] "z:"    "18.78" "14.57"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 711
+correct option: x
+value difference: 0.710000000000001
+[1] "x:"    "17.11" "11.61"
+[1] "y:"    "10.77" "17.24"
+[1] "z:"   "6.9"  "19.9"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "TRUE"             "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 773
+correct option: y
+value difference: -0.410000000000004
+[1] "x:"    "13.53" "5.55" 
+[1] "y:"    "1.82"  "17.67"
+[1] "z:"    "6.88"  "13.88"
+[1] "TS consistent: " "TRUE"            "TRUE"            "TRUE"           
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "FALSE"          
+menu: 778
+correct option: y
+value difference: -0.17
+[1] "x:"   "7.81" "6.37"
+[1] "y:"    "11.08" "3.27" 
+[1] "z:"   "6.24" "3.83"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "FALSE"            "FALSE"            "FALSE"           
+[5] "FALSE"           
+[1] "CC consistent: " "FALSE"           "FALSE"           "TRUE"           
+menu: 828
+correct option: x
+value difference: 2.27
+[1] "x:"    "0.64"  "10.43"
+[1] "y:"   "6.55" "2.25"
+[1] "z:"   "4.57" "0.26"
+[1] "TS consistent: " "FALSE"           "FALSE"           "FALSE"          
+[1] "BGS consistent: " "FALSE"            "TRUE"             "TRUE"            
+[5] "TRUE"            
+[1] "CC consistent: " "FALSE"           "FALSE"           "TRUE"           

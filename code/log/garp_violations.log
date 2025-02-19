@@ -1,0 +1,112 @@
+running
+  '/Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/bin/R --no-echo --no-restore --vanilla --file=garp_violations.R --args # nolint'
+
+- The project is out-of-sync -- use `renv::status()` for details.
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+here() starts at /Users/cassidyshubatt/Projects/problem_taxonomy
+
+Attaching package: ‘magrittr’
+
+The following object is masked from ‘package:purrr’:
+
+    set_names
+
+Loading as-if problems...
+Rows: 30 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+dbl (5): id, x_intercept, y_intercept, x_price, y_price
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Simulating choice bundles...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3641  0.6065  0.6966  0.7011  0.8020  0.9259 
+95th percentile CCEI: 0.883168284270198
+Generating alternative dataset 1...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.4291  0.5902  0.6886  0.6802  0.7656  0.9214 
+95th percentile CCEI: 0.872233755831758
+Generating alternative dataset 2...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3550  0.5421  0.6431  0.6401  0.7362  0.9186 
+95th percentile CCEI: 0.873932679172037
+Generating alternative dataset 3...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.1406  0.6156  0.6874  0.6865  0.7960  0.9376 
+95th percentile CCEI: 0.867367008914624
+Generating alternative dataset 4...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.2796  0.5770  0.6575  0.6496  0.7404  0.9389 
+95th percentile CCEI: 0.839701015533632
+Generating alternative dataset 5...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.4271  0.6275  0.6984  0.6902  0.7710  0.9440 
+95th percentile CCEI: 0.878745956820308
+Generating alternative dataset 6...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.4118  0.6386  0.7184  0.7039  0.7871  0.9519 
+95th percentile CCEI: 0.887242496650361
+Generating alternative dataset 7...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3144  0.6340  0.7711  0.7375  0.8437  0.9748 
+95th percentile CCEI: 0.913817449274706
+Generating alternative dataset 8...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.2671  0.5848  0.6798  0.6752  0.7901  0.9165 
+95th percentile CCEI: 0.87035375304896
+Generating alternative dataset 9...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.4186  0.6115  0.7080  0.6923  0.7676  0.9423 
+95th percentile CCEI: 0.856671809731182
+Generating alternative dataset 10...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3641  0.6136  0.6966  0.6859  0.7805  0.9690 
+95th percentile CCEI: 0.897891692637648
+Generating alternative dataset 11...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3122  0.5693  0.6633  0.6629  0.7509  0.9623 
+95th percentile CCEI: 0.903688795485192
+Generating alternative dataset 12...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.1887  0.6525  0.7689  0.7286  0.8248  0.9415 
+95th percentile CCEI: 0.874458180271131
+Generating alternative dataset 13...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.2841  0.5860  0.6923  0.6714  0.7834  0.9327 
+95th percentile CCEI: 0.866350034308834
+Generating alternative dataset 14...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.2431  0.5675  0.6902  0.6783  0.7938  0.9699 
+95th percentile CCEI: 0.91844574759491
+Generating alternative dataset 15...
+Num sims: 100
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.3042  0.6024  0.7052  0.6923  0.7842  0.9349 
+95th percentile CCEI: 0.90312241514855
+Done.

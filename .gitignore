@@ -1,0 +1,11 @@
+# Ignore all files in any subdirectory named "temp"
+**/temp/*
+
+# Ignore all files in any subdirectory named "output"
+**/output/*
+
+# Ignore all files in any subdirectory that starts with "data"
+**/data*/*
+
+# Allow a placeholder file to keep data/ in the repo
+!data/.gitkeep

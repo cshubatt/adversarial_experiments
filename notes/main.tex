@@ -1,0 +1,62 @@
+\documentclass[12pt]{article}
+
+\input{header}
+
+\begin{document}
+
+\title{Cognitively Complex or Conceptually Complex?}
+
+%\vspace{1cm}
+
+\author{Cassidy Shubatt}
+
+\date{\small{Date: December 2, 2024}}
+
+\normalsize
+\maketitle
+
+\normalsize
+
+%\newpage
+
+%\tableofcontents
+
+
+\begin{abstract}
+    Problems can be complex in different ways, and different forms of complexity lead to different problem solving strategies. We distinguish two notions of how a problem may be hard: the process of determining the solution may be mostly known but costly to enact (``cognitively complex''), or unknown (``conceptually complex''). We study this empirically by running a series of experiments in which we ask participants to make a series of time-pressured decisions, with the option to pay a small fee to delegate their decision. If the participant delegates, they have two choices: they may delegate to an ``artificial self'' (an algorithm trained on their own, unconstrained decisions) OR to a more experienced decision-maker who knows nothing about the participant. We first document that different features of problems are associated with the two delegation options. We then show that these different sets of complexity features predict different behavioral responses across a set of experiments, helping to organize a range of documented complexity responses. 
+\end{abstract}
+
+\section{Overview}
+Different problems are challenging for different reasons. A restaurant-goer who perfectly knows her preferences may find it challenging to search a large menu for her most-preferred option. An apartment-seeker may be unsure how much she values distance to public transportation. A health insurance shopper may struggle to forecast a plan's cost distribution, even with a good understanding of potential health risks. In this project, I want to study what \textit{about} a problem makes it challenging, and how different sources of complexity may produce different responses in decision-makers.
+
+I propose that we can think about the complexity of a problem on two distinct axes, which I will call cognitive and conceptual complexity. In cognitively complex problems, decision-makers' cognitive processing constraints may prevent them from optimally solving the problem. In conceptually complex problems, decision-makers' would be unsure how to approach problems even with unlimited cognitive resources. These two notions need not be mutually exclusive; a problem may be both cognitively and conceptually complex. For concreteness, consider menus of options characterized by a price $p$ and a quality $q$. We might imagine the following is true:
+\begin{itemize}
+    \item A decision-maker who perfectly knows her utility function over $p$ and $q$ will still find it \textbf{cognitively} challenging to optimize given a menu of 10 options.
+    \item A decision-maker who imperfectly knows her utility function will find it \textbf{conceptually} challenging to optimize, even given a menu of only 2 options.
+    \item A decision-maker who imperfectly knows her utility function will find it both \textbf{cognitively} and \textbf{conceptually} challenging to optimize over a menu of 10 options.
+\end{itemize}
+
+We anticipate that a decision-maker's response to complex environments will depend on the \textit{nature} of complexity. Motivating this idea, I have in mind the distinct findings reported in Enke and Shubatt (2023) and Arrieta and Nielsen (2023). Both papers study responses to varying complexity in binary lottery choice. The index of complexity studied in Enke and Shubatt (2023) largely depends on the excess dissimilarity between the lotteries, which can be thought of as a measure of ``distance from first order stochastic dominance.'' The paper finds that increased complexity produces higher cognitive uncertainty and more inconsistent choices when presented with the same problem multiple times. Arrieta and Nielsen instead manipulate the number of distinct payoffs in the two lotteries, comparing 2- or 3-state choices with 10-state choices.\footnote{They note that the 10-state choices are also more complex according to the Enke and Shubatt index.} They find that for the more complex choices, the decision-process is more describable. They also find that more describable decision processes are more consistent, which seems to softly contradict the inconsistency finding from Enke and Shubatt (2023). I suspect this is because the two different experiments vary what \textit{about} a problem is challenging, and this produces different types of responses. Organizing why different problems feel challenging and how this impacts the decision-making process is important if we hope to translate recent insights on complexity from the lab to real economic decisions.
+
+I propose we can operationalize these notions of \textit{cognitive} and \textit{conceptual} complexity in choice tasks with preferences as follows:
+\begin{itemize}
+  \item The \textit{cognitive complexity} of a problem to a decision-maker is measured by how much the decision-maker would like to delegate the decision to an ``artificial self,'' which perfectly knows exactly what the decision-maker knows. This would literally capture the decision-makers' perceived benefits of eliminating cognitive constraints, but we can interpret it as a measure of cognitive costs \textit{if} we assume that the decision-maker's benefit from eliminating cognitive constraints is increasing in the cognitive complexity of the problem.
+  \item The \textit{conceptual complexity} of a problem to a decision-maker is measured by how much the decision-maker would like to delegate the decision to an ``experienced other,'' who knows nothing about the decision-maker's individual preferences. This captures how much the decision-maker believes they are ``leaving on the table'' because of uncertainty on how to approach the problem.
+\end{itemize}
+
+\begin{itemize}
+  \item These delegation tasks are prety different -- a DM should certainly want to do (1) if it were free; but they may have negative WTP for (2) if e.g. they believe its important to make a choice that incorporates their preferences than a choice that's good on average
+  \item if task is not preference-based, then second type of delegation is strictly better than the first type of delegation. is there still a distinction between the abstract complexity notions we have in mind? how would we get at this?
+  \item WTP to delegate to an artificial self isn't just going to depend on the cognitive challenge of the problem, but how well the DM thinks they can approximate the optimal outcome with decision-making shortcut. e.g. if I think choosing the best from a 100-menu is very hard but I think the best of first five will be good enough, I won't pay to delegate. do we actually want to isolate the pure optimization task? i.e. do we want to say a task is hard if people are happy with their shortcut solutions?
+  \item some different questions one could ask to get at cognitive costs/constraints:
+  \begin{enumerate}
+    \item with what probability would you make the optimal choice with infinite cognitive resources? tells us how much error is not coming from cognitive constraints
+    \item how much would you be willing to pay to have an artificial self solve this problem? tells us the perceived benefit from solving the problem without constraints less the perceived benefit from solving the problem with constraints. This may not be what we want if we think people are happy with their shortcuts in many cognitively demanding problems
+    \item I think it's actually OK that the cost is like cost - cost of strategy IF you think that strategies are getting less precise as the cognitive costs go up. this may or may not be true!
+  \end{enumerate}
+\end{itemize}
+
+In preference-based tasks, we can think of relative demand for these two types of delegation as telling us something about how 
+
+
+\end{document}
