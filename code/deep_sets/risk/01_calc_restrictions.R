@@ -17,8 +17,12 @@ library(revpref)
 library(readr)
 library(optimx)
 library(hitandrun)
+library(doParallel)
+library(foreach)
+library(parallel)
 
-set.seed(214)
+global_seed <- 214
+set.seed(global_seed)
 
 h <- modules::use(here("lib", "value_functions.R"))
 
@@ -44,11 +48,11 @@ odir <- glue("data_k{k}_nsim{nsims}_{theory}")
 # Functions -------------------------------------------------------------------
 choice_mse <- function(data, params, theory = "cpt") {
   # Get MSE between v (in data) and v_hat (from params + theory)
-  data <- data %>%
-    mutate(
-      p_li = map(p, ~ c(.x, 1 - .x)),
-      x_li = map2(w, l, ~ c(.x, .y)),
-    )
+  # data <- data %>%
+  #   mutate(
+  #     p_li = map(p, ~ c(.x, 1 - .x)),
+  #     x_li = map2(w, l, ~ c(.x, .y)),
+  #   )
 
   # Calculate v_hat
   if (theory == "cpt") {
@@ -93,83 +97,44 @@ value_function <- function(p, w, l, alpha, chi, gamma) {
   return(v)
 }
 
-define_optimizer <- function(data, theory = "cpt") {
-  optimizer <- function(p) {
-    params <- list(
-      alpha = p[1],
-      beta = 1,
-      lambda = 1,
-      chi = p[2],
-      chi = 1,
-      gamma = p[3]
-    )
-    return(choice_mse(data, params, theory))
-  }
-
-  return(optimizer)
-}
-
-calc_restrictiveness <- function(
-    data = bruhin, nsim = nsims, theory = "cpt", quietly = FALSE) {
-  # Given a set of problems data, calculate restrictiveness via simulation
-  disc_theory <- c()
-  disc_base <- c()
-
-  # establish f_base, which here is just EV
-  data <- data %>%
-    mutate(
-      v_base = p * w + (1 - p) * l
-    )
-
-  # store pairs of problems on which checking eligibility is necessary
+get_eligibility <- function(data) {
   eligibility_list <- list()
   pair_count <- 0
 
   for (i in seq_len(nrow(data))) {
-    # for j from i + 1 to nrow(data)
     for (j in seq_len(nrow(data))[-(1:i)]) {
-      # check if (i, j) could produce ineligible choices
       w_comp_g <- data$w[i] >= data$w[j]
       l_comp_g <- data$l[i] >= data$l[j]
       p_comp_g <- data$p[i] >= data$p[j]
-
       w_comp_l <- data$w[i] <= data$w[j]
       l_comp_l <- data$l[i] <= data$l[j]
       p_comp_l <- data$p[i] <= data$p[j]
 
       weak_dominance <- (w_comp_g & l_comp_g & p_comp_g) |
         (w_comp_l & l_comp_l & p_comp_l)
-
       any_strict <- (data$w[i] != data$w[j]) ||
-        (data$l[i] != data$l[j]) || (data$p[i] != data$p[j])
+        (data$l[i] != data$l[j]) ||
+        (data$p[i] != data$p[j])
 
       if (weak_dominance && any_strict) {
-        # potential for ineligible choices
         i_dominates <- w_comp_g & l_comp_g & p_comp_g
-
         pair_count <- pair_count + 1
         eligibility_list[[pair_count]] <- c(
           ind_fosd = ifelse(i_dominates, i, j),
           ind_other = ifelse(i_dominates, j, i)
         )
-      } else {
-        next
       }
     }
   }
-  # Convert list to data frame
-  eligibility_matrix <- do.call(rbind, eligibility_list)
 
-  # Convert matrix to a data frame and set column names
+  eligibility_matrix <- do.call(rbind, eligibility_list)
   eligibility_pairs <- as.data.frame(eligibility_matrix)
   colnames(eligibility_pairs) <- c("ind_fosd", "ind_other")
 
-  cons_ub <- diag(1, nrow = nrow(data), ncol = nrow(data))
-  rhs_ub <- data$w
+  return(eligibility_pairs)
+}
 
-  cons_lb <- diag(-1, nrow = nrow(data), ncol = nrow(data))
-  rhs_lb <- -data$l
-
+get_constraints <- function(data, eligibility_pairs) {
   cons_fosd <- matrix(0, nrow = nrow(eligibility_pairs), ncol = nrow(data))
   for (i in seq_len(nrow(eligibility_pairs))) {
     cons_fosd[i, eligibility_pairs$ind_fosd[i]] <- -1
@@ -177,48 +142,94 @@ calc_restrictiveness <- function(
   }
   rhs_fosd <- rep(0, nrow(eligibility_pairs))
 
-  cons <- rbind(cons_ub, cons_lb, cons_fosd)
-  rhs <- c(rhs_ub, rhs_lb, rhs_fosd)
+  cons <- rbind(
+    diag(1, nrow = nrow(data)),
+    diag(-1, nrow = nrow(data)),
+    cons_fosd
+  )
+  rhs <- c(data$w, -data$l, rhs_fosd)
   dir <- rep("<=", nrow(cons))
 
   har_cons <- list(constr = cons, rhs = rhs, dir = dir)
 
-  # burn first burn_num samples
-  burn_num <- 0
-  sim_vs <- hitandrun(har_cons, n.samples = nsim + burn_num)
+  return(har_cons)
+}
 
-  for (i in seq_len(nsim)) {
+calc_restrictiveness <- function(
+    data = bruhin, nsim = nsims, theory = "cpt", quietly = FALSE) {
+  # Get eligibility pairs
+  eligibility_pairs <- get_eligibility(data)
+
+  # Given a set of problems data, calculate restrictiveness via simulation
+  data <- data %>%
+    mutate(v_base = p * w + (1 - p) * l)
+
+  har_cons <- get_constraints(data, eligibility_pairs)
+
+  sim_vs <- hitandrun(har_cons, n.samples = nsim)
+
+  # Set up parallel processing
+  num_cores <- detectCores() - 1 # Use all but one core
+  cl <- makeCluster(num_cores)
+  registerDoParallel(cl)
+
+  # # Ensures cluster stops even if error occurs
+  # on.exit(stopCluster(cl), add = TRUE)
+
+  clusterExport(
+    cl,
+    varlist = c("choice_mse", "value_function", "weight_p"),
+    envir = environment()
+  )
+
+  # Parallelize optimization over nsim
+  results <- foreach(
+    i = seq_len(nsim), .combine = "rbind", .packages = c("optimx", "dplyr")
+  ) %dopar% {
+    library(purrr)
+
     sim_data <- data %>%
-      mutate(v = sim_vs[burn_num + i, ])
+      mutate(v = sim_vs[i, ])
 
-    # discrepancy of EV
-    disc_base <- c(disc_base, mean((sim_data$v - sim_data$v_base)^2))
+    disc_base <- mean((sim_data$v - sim_data$v_base)^2)
 
-    # Find best fit v_hat (theory parameterization) for valuations v
-    optimizer <- define_optimizer(sim_data, theory = theory)
-    starting_params <- c(alpha = 1, chi = 1, gamma = 1)
-    optimum <- optimx(
-      fn = optimizer, par = starting_params,
-      method = "Nelder-Mead"
-    )
-    if (optimum$alpha < 0 | optimum$chi < 0 | optimum$gamma < 0) {
-      if (!quietly) {
-        message("Negative parameter value found in row ", i, ". Reoptimizing...")
-      }
-      optimum <- optimx(
-        fn = optimizer, par = starting_params,
-        lower = c(0, 0, 0),
-        method = "L-BFGS-B"
+    optimizer <- function(p) {
+      params <- list(
+        alpha = p[1],
+        beta = 1,
+        lambda = 1,
+        chi = p[2],
+        gamma = p[3]
       )
+      mse <- choice_mse(sim_data, params, theory)
+      if (is.nan(mse) | is.infinite(mse)) {
+        message("NaN or infinite MSE found.")
+        print(p)
+      }
+      return(mse)
     }
-    if (optimum$value > mean((sim_data$v - sim_data$v_base)^2)) {
-      disc_theory <- c(disc_theory, disc_base[i])
-    } else {
-      disc_theory <- c(disc_theory, optimum$value)
-    }
+
+    starting_params <- c(alpha = 1, chi = 1, gamma = 1)
+    optimum <- optim(
+      fn = optimizer, par = starting_params,
+      # Restrictiveness changes a lot with bounds on CPT parameters!
+      lower = c(0.05, 0.05, 0.05),
+      upper = c(1, Inf, 1),
+      method = "L-BFGS-B"
+    )
+
+    disc_theory <- ifelse(optimum$value > disc_base, disc_base, optimum$value)
+
+    return(c(disc_theory, disc_base))
   }
 
+  stopCluster(cl)
+
+  disc_theory <- results[, 1]
+  disc_base <- results[, 2]
+
   restr <- mean(disc_theory) / mean(disc_base)
+
   if (!quietly) {
     message("Mean discrepancy of theory: ", mean(disc_theory))
     message("Mean discrepancy of base: ", mean(disc_base))
@@ -226,8 +237,7 @@ calc_restrictiveness <- function(
   }
 
   restr_df <- data.frame(
-    disc_theory = disc_theory, disc_base = disc_base,
-    restrictiveness = restr
+    disc_theory = disc_theory, disc_base = disc_base, restrictiveness = restr
   )
 
   return(restr_df)
@@ -238,7 +248,10 @@ message("Loading Bruhin et al. problems...")
 bruhin <- read_csv(here("data", "risk", "bruhin_lotteries.csv"))
 
 message("Calculating restrictiveness of bruhin...")
+start <- Sys.time()
 bruhin_restr <- calc_restrictiveness(bruhin, nsim = nsims, theory = theory)
+end <- Sys.time()
+message("Time elapsed: ", end - start)
 
 # Alternative dataset ---------------------------------------------------------
 message("Constructing alternative sets of problems, restr for each...")
@@ -255,6 +268,7 @@ splits <- list(
 
 for (split in names(splits)) {
   message("Generating ", split, " data...")
+  split_seed <- which(names(splits) == split)
   split_k <- splits[[split]]$split_k
   split_n <- splits[[split]]$split_n
 
@@ -280,7 +294,13 @@ for (split in names(splits)) {
     )
   }
 
+  add_seed <- 0
+
   for (i in seq_len(split_n)) {
+    seed_i <- global_seed + add_seed
+    add_seed <- add_seed + 1
+    set.seed(seed_i)
+
     if (nrow(restrictiveness) >= i + 1) {
       next
     }
@@ -294,7 +314,7 @@ for (split in names(splits)) {
         w = runif(n(), 0, 150) %>% round(digits = 0),
         l = runif(n(), 0, w) %>% round(digits = 0)
       )
-
+    # debug(calc_restrictiveness)
     restr_alt <- calc_restrictiveness(
       alt_data,
       nsim = nsims, quietly = TRUE
@@ -316,65 +336,65 @@ for (split in names(splits)) {
 
 message("Done.")
 
-check_autocorrelation <- function(samples, max_lag = 50, plot_dims = 5) {
-  # Load necessary package
-  if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
-  if (!require("gridExtra")) install.packages("gridExtra", dependencies = TRUE)
+# check_autocorrelation <- function(samples, max_lag = 50, plot_dims = 5) {
+#   # Load necessary package
+#   if (!require("ggplot2")) install.packages("ggplot2", dependencies = TRUE)
+#   if (!require("gridExtra")) install.packages("gridExtra", dependencies = TRUE)
 
-  library(ggplot2)
-  library(gridExtra)
+#   library(ggplot2)
+#   library(gridExtra)
 
-  num_dims <- ncol(samples) # Number of dimensions
-  num_samples <- nrow(samples) # Number of samples
+#   num_dims <- ncol(samples) # Number of dimensions
+#   num_samples <- nrow(samples) # Number of samples
 
-  acf_results <- list()
-  plots <- list()
+#   acf_results <- list()
+#   plots <- list()
 
-  for (dim in 1:num_dims) {
-    # Compute autocorrelation for each dimension
-    acf_result <- acf(samples[, dim], lag.max = max_lag, plot = FALSE)
-    acf_results[[dim]] <- data.frame(
-      Lag = acf_result$lag,
-      ACF = acf_result$acf,
-      Dimension = paste("Dim", dim)
-    )
+#   for (dim in 1:num_dims) {
+#     # Compute autocorrelation for each dimension
+#     acf_result <- acf(samples[, dim], lag.max = max_lag, plot = FALSE)
+#     acf_results[[dim]] <- data.frame(
+#       Lag = acf_result$lag,
+#       ACF = acf_result$acf,
+#       Dimension = paste("Dim", dim)
+#     )
 
-    # Plot only first 'plot_dims' dimensions
-    if (dim <= plot_dims) {
-      p <- ggplot(acf_results[[dim]], aes(x = Lag, y = ACF)) +
-        geom_line() +
-        geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
-        labs(title = paste("ACF - Dimension", dim), x = "Lag", y = "Autocorrelation") +
-        theme_minimal()
-      plots[[dim]] <- p
-    }
-  }
+#     # Plot only first 'plot_dims' dimensions
+#     if (dim <= plot_dims) {
+#       p <- ggplot(acf_results[[dim]], aes(x = Lag, y = ACF)) +
+#         geom_line() +
+#         geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
+#         labs(title = paste("ACF - Dimension", dim), x = "Lag", y = "Autocorrelation") +
+#         theme_minimal()
+#       plots[[dim]] <- p
+#     }
+#   }
 
-  # Display plots (up to `plot_dims` dimensions)
-  grid.arrange(grobs = plots, ncol = min(2, plot_dims))
+#   # Display plots (up to `plot_dims` dimensions)
+#   grid.arrange(grobs = plots, ncol = min(2, plot_dims))
 
-  return(acf_results)
-}
+#   return(acf_results)
+# }
 
-# Example usage with your samples (assuming 'samples' is a matrix of size N x d)
-# Replace 'samples' with your actual matrix
-# acf_results <- check_autocorrelation(samples)
+# # Example usage with your samples (assuming 'samples' is a matrix of size N x d)
+# # Replace 'samples' with your actual matrix
+# # acf_results <- check_autocorrelation(samples)
 
-compute_ess <- function(samples, max_lag = 50) {
-  # Load necessary package
-  if (!require("coda")) install.packages("coda", dependencies = TRUE)
-  library(coda)
+# compute_ess <- function(samples, max_lag = 50) {
+#   # Load necessary package
+#   if (!require("coda")) install.packages("coda", dependencies = TRUE)
+#   library(coda)
 
-  num_dims <- ncol(samples) # Number of dimensions
-  ess_values <- numeric(num_dims) # Store ESS for each dimension
+#   num_dims <- ncol(samples) # Number of dimensions
+#   ess_values <- numeric(num_dims) # Store ESS for each dimension
 
-  for (dim in 1:num_dims) {
-    # Convert to MCMC object for ESS calculation
-    ess_values[dim] <- effectiveSize(samples[, dim])
-  }
+#   for (dim in 1:num_dims) {
+#     # Convert to MCMC object for ESS calculation
+#     ess_values[dim] <- effectiveSize(samples[, dim])
+#   }
 
-  # Print summary
-  print(summary(ess_values))
+#   # Print summary
+#   print(summary(ess_values))
 
-  return(ess_values)
-}
+#   return(ess_values)
+# }

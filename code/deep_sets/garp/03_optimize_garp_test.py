@@ -71,9 +71,6 @@ for i in range(20000):
     # result = minimize(objective_function, initial_guess_norm, bounds=bounds_norm, method='L-BFGS-B', options=options)
     # pdb.set_trace()
 
-    # Initial guess for the points (num_points points in [0, 100]^2)
-    initial_guess = np.random.uniform(1, 100, size=(num_points, 2)).flatten()
-
     # Perform the optimization
     result = minimize(
         objective_function, initial_guess, bounds=bounds, method='L-BFGS-B', options=options
