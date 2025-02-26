@@ -1,6 +1,8 @@
 # Ignore all files in any subdirectory named "temp"
 **/temp/*
 
+**/.DS_Store
+
 # Ignore all files in any subdirectory named "output"
 **/output/*
 

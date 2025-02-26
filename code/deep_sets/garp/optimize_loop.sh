@@ -3,8 +3,8 @@
 
 source ~/miniconda3/etc/profile.d/conda.sh
 
-# mkdir data_k${1}_nsim${2}_${5}
-# mkdir data_k${1}_nsim${2}_${5}/outfiles
+mkdir data_k${1}_nsim${2}_${5}
+mkdir data_k${1}_nsim${2}_${5}/outfiles
 
 # Rscript --vanilla --verbose 01_generate_violations.R k=$1 nsims=$2 test_k=$3 y_var=$5 > data_k${1}_nsim${2}_${5}/outfiles/01_generate_violations.log 2>&1
 

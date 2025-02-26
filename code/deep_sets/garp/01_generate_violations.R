@@ -15,8 +15,12 @@ library(glue)
 library(magrittr)
 library(revpref)
 library(readr)
+library(doParallel)
+library(foreach)
+library(parallel)
 
-set.seed(214)
+global_seed <- 214
+set.seed(global_seed)
 
 # Parse command line arguments
 args <- commandArgs(trailingOnly = TRUE)
@@ -27,30 +31,37 @@ y_var <- as.character(
   sub("y_var=", "", args[grep("y_var=", args)])
 )
 
-# k <- 10
+# k <- 8
 # nsims <- 200
 # test_k <- 5
 # y_var <- "frac_viol"
 
 r <- 100 # Example value, replace with the actual value of r
+e <- 0.95 # allowable e for GARP(e)
 
 message("k = ", k, ", nsims = ", nsims, ", test_k = ", test_k, ", r = ", r)
 
 # Functions -------------------------------------------------------------------
-sample_bundle <- function(x_intercept, x_price, y_price) {
-  x_units <- runif(1, 0, 1) * x_intercept
-  y_units <- (100 - x_units * x_price) / y_price
-
-  return(list(x_units = x_units, y_units = y_units))
-}
-
-run_simulation <- function(data = asif, nsim = nsims) {
+run_simulation <- function(data = base, nsim = 200) {
   p <- data %>%
     select(x_price, y_price) %>%
     as.matrix()
-  cceis <- c()
 
-  for (i in seq_len(nsim)) {
+  cl <- makeCluster(detectCores() - 1)
+  registerDoParallel(cl)
+
+  # Use foreach with %dopar% to parallelize the loop
+  cceis <- foreach(
+    i = seq_len(nsim), .combine = c,
+    .packages = c("dplyr", "revpref", "purrr")
+  ) %dopar% {
+    sample_bundle <- function(x_intercept, x_price, y_price) {
+      x_units <- runif(1, 0, 1) * x_intercept
+      y_units <- (100 - x_units * x_price) / y_price
+
+      return(list(x_units = x_units, y_units = y_units))
+    }
+
     sim_q <- data %>%
       mutate(
         result = pmap(.l = list(x_intercept, x_price, y_price), sample_bundle),
@@ -61,24 +72,30 @@ run_simulation <- function(data = asif, nsim = nsims) {
     q <- sim_q %>%
       select(x_unit, y_unit) %>%
       as.matrix()
-    cceis <- c(cceis, ccei(p, q))
+
+    ccei(p, q) # Compute the CCEI for this simulation
   }
+
+  # Shut down the cluster after the computation is done
+  stopCluster(cl)
 
   return(cceis)
 }
 
 # Load data -------------------------------------------------------------------
 message("Loading as-if problems...")
-asif_all <- read_csv(here("data", "as_if_budgets.csv"))
-asif <- asif_all[1:k, ]
+base_all <- read_csv(here("data", "am_budgets.csv"))
+base <- base_all[1:k, ]
 
-message("As If CCEI (all):")
-ccei_all <- run_simulation(asif_all, nsim = nsims)
+message("Base CCEI (all):")
+ccei_all <- run_simulation(base_all, nsim = nsims)
 print(summary(ccei_all))
 
-message("As If CCEI (k):")
-ccei_k <- run_simulation(asif, nsim = nsims)
+message("Base CCEI (k):")
+ccei_k <- run_simulation(base, nsim = nsims)
 print(summary(ccei_k))
+message("Frac expected CCEI > e:")
+print(mean(ccei_k > e))
 
 # Alternative dataset ---------------------------------------------------------
 message("Constructing alternative sets of problems, Bronars test...")
@@ -102,7 +119,7 @@ for (split in names(splits)) {
   fp <- file.path(odir, glue("{split}.rds"))
   fp_csv <- file.path(odir, glue("{split}.csv"))
 
-  asif_split <- asif[1:split_k, ]
+  base_split <- base[1:split_k, ]
 
   if (file.exists(fp)) {
     bronars_data <- read_rds(fp)
@@ -110,17 +127,15 @@ for (split in names(splits)) {
     bronars_data <- as.data.frame(matrix(0, ncol = split_k * 2 + 3, nrow = 1))
     names(bronars_data) <- c(
       glue("x_{1:split_k}"), glue("y_{1:split_k}"), "mean_ccei",
-      "ccei_95", "frac_nonviol"
+      "ccei_e", "frac_nonviol"
     )
 
-    cceis <- run_simulation(asif_split, nsim = nsims)
-    # message("As If CCEI distribution:")
-    # print(summary(cceis))
+    cceis <- run_simulation(base_split, nsim = nsims)
 
     # Row 1 of dataset = As If data
     bronars_data[1, ] <- c(
-      asif_split$x_intercept, asif_split$y_intercept,
-      mean(cceis), quantile(cceis, 0.95), mean(cceis == 1)
+      base_split$x_intercept, base_split$y_intercept,
+      mean(cceis), mean(cceis > e), mean(cceis == 1)
     )
   }
 
@@ -132,7 +147,7 @@ for (split in names(splits)) {
       message("Generating alternative dataset ", i, "...")
     }
 
-    alt_data <- asif_split %>%
+    alt_data <- base_split %>%
       mutate(
         x_intercept = runif(n(), 1, r),
         y_intercept = runif(n(), 1, r),
@@ -146,8 +161,8 @@ for (split in names(splits)) {
       bronars_data,
       c(
         alt_data$x_intercept, alt_data$y_intercept,
-        mean(cceis_alt), quantile(cceis_alt, 0.95),
-        mean(cceis_alt < 1)
+        mean(cceis_alt), mean(cceis_alt > 0.95),
+        mean(cceis_alt == 1)
       )
     )
     assert(nrow(bronars_data) == i + 1)
@@ -155,20 +170,6 @@ for (split in names(splits)) {
     write_rds(bronars_data, fp)
     write_csv(bronars_data, fp_csv)
   }
-
-  # Normalize columns x_1, ..., x_k and y_1, ..., y_k for deep net
-  # if ((mean(abs(bronars_data$x_1 - mean(bronars_data$x_1))) < 2)) {
-  #   message("Transforming data...")
-  #   norm_data <- bronars_data %>%
-  #     mutate_at(
-  #       vars(starts_with("x_"), starts_with("y_")),
-  #       ~(. - r / 2) / sqrt(r^2 / 12)
-  #     )
-  #   write_rds(norm_data, fp)
-  #   write_csv(norm_data, fp_csv)
-  # } else {
-  #   message("Data already transformed.")
-  # }
 }
 
 message("Done.")

@@ -60,16 +60,6 @@ for i in range(20000):
     
     # Initial guess for the points (num_points points in [0, 100]^2)
     initial_guess = np.random.uniform(0, r, size=(num_points, 2)).flatten()
-    # # subtract r/2, divide by sqrt(r^2/12)
-    # initial_guess_norm = (initial_guess - r/2) / np.sqrt(r**2/12)
-    
-    # lb = (0 - r/2) / np.sqrt(r**2/12)
-    # ub = (100 - r/2) / np.sqrt(r**2/12)
-    # bounds_norm = [(lb, ub) for _ in range(num_points * 2)]
-
-    # # Perform the optimization
-    # result = minimize(objective_function, initial_guess_norm, bounds=bounds_norm, method='L-BFGS-B', options=options)
-    # pdb.set_trace()
 
     # Perform the optimization
     result = minimize(
